@@ -66,14 +66,14 @@ def getCords(file,start_frame_no,end_frame_no=None):
   if end_frame_no!=None and end_frame_no<start_frame_no:
     return pd.DataFrame.from_dict(data)
     
-  if end_frame_no==None
+  if end_frame_no==None:
     end_frame_no=start_frame_no
 
   #if end_frame_no>=start_frame_no:
   for frame_no in range(start_frame_no,end_frame_no):
     line,succ=gotoFrame(file,frame_no)
     if not succ:
-      print('Could not find the frame {}'.format(start_frame_no)
+      print('Could not find the frame {}'.format(start_frame_no))
       continue
     elif succ:
       curr_frame_no=int(line.strip().split()[1])
@@ -129,7 +129,7 @@ def getBonds(file,start_frame_no,end_frame_no=None):
   for frame_no in range(start_frame_no,end_frame_no):
     line,succ=gotoFrame(file,frame_no)
     if not succ:
-      print('Could not find the frame {}'.format(start_frame_no)
+      print('Could not find the frame {}'.format(start_frame_no))
       continue
     elif succ:
       curr_frame_no=int(line.strip().split()[1])
@@ -140,7 +140,7 @@ def getBonds(file,start_frame_no,end_frame_no=None):
       bonds=int(line.strip().split()[1])
       for i in range(atoms):
         file.readline()
-      for i in range(bonds)
+      for i in range(bonds):
         line=file.readline()
         line=processLineBonds(line)
         data['frame'].append(curr_frame_no)
