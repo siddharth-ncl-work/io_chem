@@ -15,24 +15,21 @@ def fileType(file):
 def readFile(file_path):
   pass
 
-def readFileMd(file,start_frame_no=0,end_frame_no=None,info='cords'):
-  file_type=fileType(file)
+def readFileMd(file,start_frame_no=0,end_frame_no=None,info='cords',file_type=None):
+  if type==None:
+    file_type=fileType(file)
   if file_type=='xyz':
     pass
   elif file_type=='.mol':
     if info=='atoms':
-      atoms=read_file_mol_md.getNumOfAtoms(file)
+      atoms=read_file_mol_md.totalAtoms(file)
     elif info=='cords':
       df=read_file_mol_md.getCords(file,start_frame_no,end_frame_no=end_frame_no)
       return df
     elif info=='bonds':
       df=read_file_mol_md.getBonds(file,start_frame_no,end_frame_no=end_frame_no)
       return df
+  elif file_type='opt':
+    pass
 
-
-#if __name__=='__main__':
-  #import sys
-  #sys.path.extend(['..','.'])
-  #file=open('/home/vanka/siddharth/mol_data/Acetamide3d.mol','r')
-  #cords=read_file(file,column_list=['element','x','y','z','connectivity'])
-  #print(cords)
+#file=open('/home/vanka/siddharth/mol_data/Acetamide3d.mol','r')
