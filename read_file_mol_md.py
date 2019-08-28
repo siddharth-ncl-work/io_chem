@@ -1,10 +1,11 @@
 import pandas as pd
 
-def getNumOfAtoms(file):
+def totalAtoms(file):
   last_pos=file.tell()
   line=file.readline()
-  while 'frame' in line:
-    line=file.readfile()
+  while 'frame' not in line:
+    line=file.readline()
+  line=file.readline()
   line=file.readline()
   line=file.readline()
   atoms=int(line.strip().split()[0])
@@ -33,7 +34,7 @@ def processLineCords(line):
 def processLineBonds(line):
   line=line.strip().split()
   line=line[:3]
-  line=map(int,line)
+  line=list(map(int,line))
   line[0]-=1
   line[1]-=1
   return line
@@ -70,7 +71,7 @@ def getCords(file,start_frame_no,end_frame_no=None):
     end_frame_no=start_frame_no
 
   #if end_frame_no>=start_frame_no:
-  for frame_no in range(start_frame_no,end_frame_no):
+  for frame_no in range(start_frame_no,end_frame_no+1):
     line,succ=gotoFrame(file,frame_no)
     if not succ:
       print('Could not find the frame {}'.format(start_frame_no))
@@ -80,10 +81,11 @@ def getCords(file,start_frame_no,end_frame_no=None):
       assert curr_frame_no==frame_no, 'Frame number Mismatch'
       line=file.readline()
       line=file.readline()
+      line=file.readline()
       atoms=int(line.strip().split()[0])
       for i in range(atoms):
         line=file.readline()
-        line=processLine(line)
+        line=processLineCords(line)
         data['frame'].append(curr_frame_no)
         data['atom'].append(line[3])
         data['atom_no'].append(i)
@@ -126,7 +128,7 @@ def getBonds(file,start_frame_no,end_frame_no=None):
     end_frame_no=start_frame_no
     
   #elif end_frame_no!=None and end_frame_no>=start_frame_no:
-  for frame_no in range(start_frame_no,end_frame_no):
+  for frame_no in range(start_frame_no,end_frame_no+1):
     line,succ=gotoFrame(file,frame_no)
     if not succ:
       print('Could not find the frame {}'.format(start_frame_no))
@@ -134,6 +136,7 @@ def getBonds(file,start_frame_no,end_frame_no=None):
     elif succ:
       curr_frame_no=int(line.strip().split()[1])
       assert curr_frame_no==frame_no, 'Frame number Mismatch'
+      line=file.readline()
       line=file.readline()
       line=file.readline()
       atoms=int(line.strip().split()[0])
