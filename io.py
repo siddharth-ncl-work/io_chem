@@ -9,7 +9,7 @@ from . import read_file_xyz
 
 def fileType(file):
   if type(file)==str:
-    file.strip().split('.')[-1].lower()
+    return file.strip().split('.')[-1].lower()
   else:
     return file.name.strip().split('.')[-1].lower()
 
@@ -21,7 +21,8 @@ def readFile(file_path,file_type=None,info='cords'):
       df=read_file_xyz.getCords(file_path)
       return df
     elif info=='atoms':
-      pass
+      atoms=read_file_xyz.totalAtoms(file_path)
+      return atoms
 
 def readFileMd(file,start_frame_no=0,end_frame_no=None,info='cords',file_type=None):
   if file_type==None:
