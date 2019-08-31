@@ -6,6 +6,9 @@ from decimal import Decimal
 
 from . import read_file_mol_md
 from . import read_file_xyz
+from . import read_file_opt
+from . import write_file_xyz
+from . import write_file_opt
 
 def fileType(file):
   if type(file)==str:
@@ -23,6 +26,12 @@ def readFile(file_path,file_type=None,info='cords'):
     elif info=='atoms':
       atoms=read_file_xyz.totalAtoms(file_path)
       return atoms
+  elif file_type=='opt':
+    if info=='cords':
+      df=read_file_opt.getCords(file_path)
+      return df
+    elif info=='atoms':
+      pass
 
 def readFileMd(file,start_frame_no=0,end_frame_no=None,info='cords',file_type=None):
   if file_type==None:
@@ -43,6 +52,24 @@ def readFileMd(file,start_frame_no=0,end_frame_no=None,info='cords',file_type=No
     pass
   else:
     print('file type is not yet implemented')
+
+def writeFile(file_path,df,file_type=None,info='normal',atoms_list=None):
+  if file_type==None:
+    file_type=fileType(file_path)
+  if file_type=='xyz':
+    if info=='normal':
+      write_file_xyz.write(file_path,df)
+    elif info=='':
+      pass
+  elif file_type=='mol':
+    pass
+  elif file_type=='opt':
+    if info=='normal':
+      write_file_opt.writeCords(file_path,df)
+    elif info=='fix_atoms':
+      write_file_opt.fixAtoms(file_path,df,atoms_list)
+
+
 
 #file=open('/home/vanka/siddharth/mol_data/Acetamide3d.mol','r')
 if __name__=='__main__':
