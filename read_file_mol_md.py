@@ -41,36 +41,13 @@ def processLineBonds(line):
 
 def getCords(file,start_frame_no,end_frame_no=None):
   data={'frame':[],'atom':[],'atom_no':[],'x':[],'y':[],'z':[]}
-  '''
-  if end_frame_no==None:
-    line,succ=gotoFrame(file,start_frame_no)
-    if not succ:
-      print('Could not find start frame {}'.format(start_frame_no))
-      return
-    curr_frame_no=int(line.strip().split()[1])
-    assert curr_frame_no==start_frame_no, 'Frame number Mismatch'
-    line=file.readline()
-    line=file.readline()
-    atoms=int(line.strip().split()[0])
-    for i in range(atoms):
-      line=file.readline() 
-      line=processLineCords(line)     
-      data['frame'].append(curr_frame_no)
-      data['atom'].append(line[3])
-      data['atom_no'].append(i)
-      data['x'].append(line[0])
-      data['y'].append(line[1])
-      data['z'].append(line[2])
-    df=pd.DataFrame.from_dict(data)
-    return df
-    '''
+ 
   if end_frame_no!=None and end_frame_no<start_frame_no:
     return pd.DataFrame.from_dict(data)
     
   if end_frame_no==None:
     end_frame_no=start_frame_no
 
-  #if end_frame_no>=start_frame_no:
   for frame_no in range(start_frame_no,end_frame_no+1):
     line,succ=gotoFrame(file,frame_no)
     if not succ:
@@ -96,38 +73,14 @@ def getCords(file,start_frame_no,end_frame_no=None):
   return df
 
 def getBonds(file,start_frame_no,end_frame_no=None):
-  data={'frame':[],'atom_0':[],'atom_1':[],'bond':[]}
-  '''
-  if end_frame_no==None:
-    line,succ=gotoFrame(file,start_frame_no)
-    if not succ:
-      print('Could not find start frame {}'.format(start_frame_no))
-      return
-    curr_frame_no=int(line.strip().split()[1])
-    assert curr_frame_no==start_frame_no, 'Frame number Mismatch'
-    line=file.readline()
-    line=file.readline()
-    atoms=int(line.strip().split()[0])
-    bonds=int(line.strip().split()[1])
-    for i in range(atoms):
-      file.readline()
-    for i in range(bond):
-      line=file.readline()
-      line=processLineBonds(line)
-      data['frame'].append(curr_frame_no)
-      data['atom_0'].append(line[0])
-      data['atom_1'].append(line[1])
-      data['bond'].append(line[2])
-    df=pd.DataFrame.from_dict(data)
-    return df
-  '''
+  data={'frame':[],'atom0':[],'atom1':[],'bond':[]}
+ 
   if end_frame_no!=None and end_frame_no<start_frame_no:
     return pd.DataFrame.from_dict(data)
   
   if end_frame_no==None:
     end_frame_no=start_frame_no
     
-  #elif end_frame_no!=None and end_frame_no>=start_frame_no:
   for frame_no in range(start_frame_no,end_frame_no+1):
     line,succ=gotoFrame(file,frame_no)
     if not succ:
@@ -147,8 +100,8 @@ def getBonds(file,start_frame_no,end_frame_no=None):
         line=file.readline()
         line=processLineBonds(line)
         data['frame'].append(curr_frame_no)
-        data['atom_0'].append(line[0])
-        data['atom_1'].append(line[1])
+        data['atom0'].append(line[0])
+        data['atom1'].append(line[1])
         data['bond'].append(line[2])
   df=pd.DataFrame.from_dict(data)
   return df
