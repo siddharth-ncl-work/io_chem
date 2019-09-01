@@ -3,6 +3,7 @@ Module to handle all i/o operations for the files used in computational chemistr
 ### Currently Supports following file formats:
 1. mol/SDF
 2. xyz
+3. opt (optimization file from the cluster job)
 
 ### File Handling:
 1. Small: With file path
