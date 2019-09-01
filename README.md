@@ -9,10 +9,10 @@ Module to handle all i/o operations for the files used in computational chemistr
 2. Large: With file pointer
 
 ## Design rules:
-return type: Pandas Dataframe(Default)  wherever applicable
-column names: singular
-Functions: Camel case
-variables: underscores
-strings/file_name: lower case with underscore
+* return type: Pandas Dataframe(Default)  wherever applicable
+* column names: singular
+* Functions: Camel case
+* variables: underscores
+* strings/file_name: lower case with underscore
 
 Add Wraper to handle slightly different versions of the same file type
