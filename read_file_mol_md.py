@@ -108,4 +108,55 @@ def getBonds(file,start_frame_no,end_frame_no=None):
         data['bond'].append(line[2])
   df=pd.DataFrame.from_dict(data)
   return df
+  
+def getCordsAndBonds(file,start_frame_no,end_frame_no=None):
+  df_cords=pd.DataFrame(columns=['frame','atom','atom_no','x','y','z'])
+  df_bonds=pd.DataFrame(columns=['frame','atom0','atom1','bond'])
+
+  if end_frame_no!=None and end_frame_no<start_frame_no:
+    return (df_cords,df_bonds)
+
+  if end_frame_no==None:
+    end_frame_no=start_frame_no
+
+  for frame_no in range(start_frame_no,end_frame_no+1):
+    data_cords={'frame':[],'atom':[],'atom_no':[],'x':[],'y':[],'z':[]}
+    line,succ=gotoFrame(file,frame_no)
+    if not succ:
+      print('Could not find the frame {}'.format(start_frame_no))
+      continue
+    elif succ:
+      curr_frame_no=int(line.strip().split()[1])
+      assert curr_frame_no==frame_no, 'Frame number Mismatch'
+      line=file.readline()
+      line=file.readline()
+      line=file.readline()
+      atoms=int(line.strip().split()[0])
+      bonds=int(line.strip().split()[1])
+      for i in range(atoms):
+        line=file.readline()
+        line=processLineCords(line)
+        data_cords['frame'].append(curr_frame_no)
+        data_cords['atom'].append(line[3])
+        data_cords['atom_no'].append(i)
+        data_cords['x'].append(line[0])
+        data_cords['y'].append(line[1])
+        data_cords['z'].append(line[2])
+    tmp_df_cords=pd.DataFrame.from_dict(data_cords)
+
     
+    data_bonds={'frame':[],'atom0':[],'atom1':[],'bond':[]}
+    for i in range(bonds):
+        line=file.readline()
+        line=processLineBonds(line)
+        data_bonds['frame'].append(curr_frame_no)
+        data_bonds['atom0'].append(line[0])
+        data_bonds['atom1'].append(line[1])
+        data_bonds['bond'].append(line[2])
+    tmp_df_bonds=pd.DataFrame.from_dict(data_bonds)
+    
+    
+    df_cords=pd.concat([df_cords,tmp_df_cords],ignore_index=True)
+    df_bonds=pd.concat([df_bonds,tmp_df_bonds],ignore_index=True)
+  return (df_cords,df_bonds)
+  

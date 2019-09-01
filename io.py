@@ -49,6 +49,11 @@ def readFileMd(file,start_frame_no=0,end_frame_no=None,info='cords',file_type=No
     elif info=='bonds':
       df=read_file_mol_md.getBonds(file,start_frame_no,end_frame_no=end_frame_no)
       return df
+    elif info=='cords_and_bonds':
+      dfs=read_file_mol_md.getCordsAndBonds(file,start_frame_no,end_frame_no=end_frame_no)
+      return dfs
+    else:
+      print('check info')
   elif file_type=='opt':
     pass
   else:
