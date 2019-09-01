@@ -8,6 +8,7 @@ from . import read_file_mol_md
 from . import read_file_xyz
 from . import read_file_opt
 from . import write_file_xyz
+from . import write_file_xyz_md
 from . import write_file_opt
 
 def fileType(file):
@@ -58,8 +59,8 @@ def writeFile(file_path,df,file_type=None,info='normal',atoms_list=None):
     file_type=fileType(file_path)
   if file_type=='xyz':
     if info=='normal':
-      write_file_xyz.write(file_path,df)
-    elif info=='':
+      write_file_xyz.writeCords(file_path,df)
+    elif info=='fix_atoms':
       pass
   elif file_type=='mol':
     pass
@@ -69,7 +70,18 @@ def writeFile(file_path,df,file_type=None,info='normal',atoms_list=None):
     elif info=='fix_atoms':
       write_file_opt.fixAtoms(file_path,df,atoms_list)
 
-
+def writeFileMd(file,df,frame_no,file_type=None,info='normal',atoms_list=None):
+  if file_type==None:
+    file_type=fileType(file)
+  if file_type=='xyz':
+    if info=='normal':
+      write_file_xyz_md.writeCords(file,df,frame_no)
+    elif info=='fix_atoms':
+      pass
+  elif file_type=='mol':
+    pass
+  elif file_type=='opt':
+    pass
 
 #file=open('/home/vanka/siddharth/mol_data/Acetamide3d.mol','r')
 if __name__=='__main__':

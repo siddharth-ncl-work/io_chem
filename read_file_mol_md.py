@@ -1,4 +1,5 @@
 import pandas as pd
+from tqdm import tqdm
 
 def totalAtoms(file):
   last_pos=file.tell()
@@ -37,6 +38,8 @@ def processLineBonds(line):
   line=list(map(int,line))
   line[0]-=1
   line[1]-=1
+  if line[2]>1:
+    line[2]=1
   return line
 
 def getCords(file,start_frame_no,end_frame_no=None):
