@@ -8,7 +8,11 @@ Module to handle all i/o operations for the files used in computational chemistr
 1. Small: With file path
 2. Large: With file pointer
 
-Default return type is Pandas Dataframe wherever applicable
+## Design rules:
+return type: Pandas Dataframe(Default)  wherever applicable
+column names: singular
 Functions: Camel case
 variables: underscores
+strings/file_name: lower case with underscore
+
 Add Wraper to handle slightly different versions of the same file type
