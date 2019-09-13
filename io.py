@@ -1,11 +1,12 @@
 import pandas as pd 
 import numpy as np
 import sys
-#sys.path.extend(['..','.','../..'])
+#sys.path.extend(['.','..'])
 from decimal import Decimal
 
 from . import read_file_mol_md
 from . import read_file_xyz
+from . import read_file_xyz_md
 from . import read_file_opt
 from . import write_file_xyz
 from . import write_file_xyz_md
@@ -34,11 +35,18 @@ def readFile(file_path,file_type=None,info='cords'):
     elif info=='atoms':
       pass
 
-def readFileMd(file,start_frame_no=0,end_frame_no=None,info='cords',file_type=None):
+def readFileMd(file,start_frame_no=0,end_frame_no=None,info='cords',file_type=None,frame_no_pos=1):
   if file_type==None:
     file_type=fileType(file)
   if file_type=='xyz':
-    pass
+    if info=='atoms':
+      atoms=read_file_xyz_md.totalAtoms(file)
+      return atoms
+    elif info=='cords':
+      df=read_file_xyz_md.getCords(file,start_frame_no,end_frame_no=end_frame_no,frame_no_pos=frame_no_pos)
+      return df
+    else:
+      pass
   elif file_type=='mol':
     if info=='atoms':
       atoms=read_file_mol_md.totalAtoms(file)
@@ -90,6 +98,9 @@ def writeFileMd(file,df,frame_no,file_type=None,info='normal',atoms_list=None):
 
 #file=open('/home/vanka/siddharth/mol_data/Acetamide3d.mol','r')
 if __name__=='__main__':
-  file_path='/home/vanka/siddharth/shailaja_project/Na_cluster_for_center_of_mass'
-  df=readFile(file_path,file_type='xyz')
-  print(df)
+  #file_path='/home/vanka/siddharth/shailaja_project/Na_cluster_for_center_of_mass'
+  #df=readFile(file_path,file_type='xyz')
+  file_path='/home/vanka/shailja/na_h20_with_in_4angstrom_from_md_now_aimd/scr/coors.xyz'
+  with open(file_path,'r') as f:
+    df=readFileMd(f,start_frame_no=0,end_frame_no=10,frame_no_pos=2)
+    print(df)
