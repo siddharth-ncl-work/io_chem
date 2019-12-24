@@ -83,12 +83,12 @@ def writeFile(file_path,df,file_type=None,info='normal',atoms_list=None):
     elif info=='fix_atoms':
       write_file_opt.fixAtoms(file_path,df,atoms_list)
 
-def writeFileMd(file,df,frame_no,file_type=None,info='normal',atoms_list=None):
+def writeFileMd(file,df,frame_no,file_type=None,info='normal',atoms_list=None,frame_no_pos=1):
   if file_type==None:
     file_type=fileType(file)
   if file_type=='xyz':
     if info=='normal':
-      write_file_xyz_md.writeCords(file,df,frame_no)
+      write_file_xyz_md.writeCords(file,df,frame_no,frame_no_pos=frame_no_pos)
     elif info=='fix_atoms':
       pass
   elif file_type=='mol':
