@@ -4,17 +4,15 @@ from decimal import Decimal
 import networkx as nx
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import sys
-sys.path.extend(['.'])
 
-import read_file_mol
-import read_file_mol_md
-import read_file_xyz
-import read_file_xyz_md
-import read_file_opt
-import write_file_xyz
-import write_file_xyz_md
-import write_file_opt
+from . import read_file_mol
+from . import read_file_mol_md
+from . import read_file_xyz
+from . import read_file_xyz_md
+from . import read_file_opt
+from . import write_file_xyz
+from . import write_file_xyz_md
+from . import write_file_opt
 
 
 def fileType(file):
