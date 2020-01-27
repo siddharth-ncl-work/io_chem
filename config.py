@@ -1,5 +1,5 @@
-__version__=2.0.0
+__version__=2.0.1
 
 '''
-create release-2.0.0
+create hotfix-2.0.1
 '''

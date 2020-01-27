@@ -134,13 +134,14 @@ if __name__=='__main__':
   #file_path='/home/vanka/siddharth/shailaja_project/Na_cluster_for_center_of_mass'
   #df=readFile(file_path,file_type='xyz')
   #file_path='/home/vanka/shailja/na_h20_with_in_4angstrom_from_md_now_aimd/scr/coors.xyz'
-  #mol_sd_file_path='test_systems/frames_0_1000.mol'
-  '''
+  mol_sd_file_path='test_systems/frames_0_1000.mol'
+  
   with open(mol_sd_file_path,'r') as file:
-    df=readFileMd(file,start_frame_no=0,end_frame_no=0,info='graph',frame_no_pos=2)
+    df=readFileMd(file,info='graph',frame_no_pos=2)
     pos=nx.spring_layout(df[0])
     nx.draw_networkx(df[0],pos,labels=nx.get_node_attributes(df[0],'element'))
     plt.show()
+  
   '''
   file_path='test_systems/sugar.mol'
   df=readFile(file_path,info='graph')
@@ -148,3 +149,4 @@ if __name__=='__main__':
   pos=nx.spring_layout(df)
   nx.draw_networkx(df,pos,labels=nx.get_node_attributes(df,'element'))
   plt.show()
+  '''

@@ -196,9 +196,12 @@ def getAdjacencyMatrix(file,start_frame_no,end_frame_no=None,atom_no_digits=3,fr
     adjacency_matrix_dict[frame_no]=adjacency_matrix
   return adjacency_matrix_dict
 
-def getFrameGraph(file,start_frame_no,end_frame_no=None,atom_no_digits=3,frame_no_pos=2):
+def getFrameGraph(file,start_frame_no=None,end_frame_no=None,atom_no_digits=3,frame_no_pos=2):
   frame_graph_dict={}
   
+  if start_frame_no==None:
+    start_frame_no=0
+
   if end_frame_no!=None and end_frame_no<start_frame_no:
     return (df_cords,df_bonds)
 
