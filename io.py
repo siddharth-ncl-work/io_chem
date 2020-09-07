@@ -114,7 +114,7 @@ def writeFile(file_path,df,file_type=None,info='normal',atoms_list=None):
       write_file_opt.fixAtoms(file_path,df,atoms_list)
 
 def writeFileMd(file,df,frame_no,file_type=None,info='normal',atoms_list=None,frame_no_pos=1):
-  if file_type==None:
+  if file_type is None:
     file_type=fileType(file)
   if file_type=='xyz':
     if info=='normal':
@@ -126,20 +126,45 @@ def writeFileMd(file,df,frame_no,file_type=None,info='normal',atoms_list=None,fr
   elif file_type=='opt':
     pass
 
+def checkIntegrity(file_path,file_type=None,is_md=False,start_frame_no=0,end_frame_no=None,frame_no_pos=1,atom_no_digits=3):
+  data={'frame_no':[],'total_atoms':[],'ref_total_atoms':[]}
+  if file_type is None:
+    file_type=fileType(file_path)
+  if file_type=='xyz':
+    with open(file_path,'r') as file:
+      ref_total_atoms=read_file_xyz_md.totalAtoms(file)
+    file=open(file_path,'r')
+    if is_md:
+      for curr_frame_no in range(start_frame_no,end_frame_no+1):
+        df=read_file_xyz_md.getCords(file,curr_frame_no,frame_no_pos=frame_no_pos)
+        curr_frame_total_atoms=df.shape[0]
+        if curr_frame_total_atoms!=ref_total_atoms:
+          print('ERROR')
+          data['frame_no'].append(curr_frame_no)
+          data['total_atoms'].append(curr_frame_total_atoms)
+          data['ref_total_atoms'].append(ref_total_atoms)
+    else:
+      pass
+    file.close()
 
-if __name__=='__main__':
+if __name__=='__main__':  
   #file=open('/home/vanka/siddharth/mol_data/Acetamide3d.mol','r')
   #file_path='/home/vanka/siddharth/shailaja_project/Na_cluster_for_center_of_mass'
   #df=readFile(file_path,file_type='xyz')
-  #file_path='/home/vanka/shailja/na_h20_with_in_4angstrom_from_md_now_aimd/scr/coors.xyz'
-  mol_sd_file_path='test_systems/frames_0_1000.mol'
+  file_path='/home/vanka/shailja/na_h20_with_in_4angstrom_from_md_now_aimd/scr/coors.xyz'
+  #mol_sd_file_path='test_systems/frames_0_1000.mol'
   
+  checkIntegrity(file_path,is_md=True,start_frame_no=0,end_frame_no=100)
+
+   
+  '''
   with open(mol_sd_file_path,'r') as file:
     df=readFileMd(file,info='graph',frame_no_pos=2)
     pos=nx.spring_layout(df[0])
     nx.draw_networkx(df[0],pos,labels=nx.get_node_attributes(df[0],'element'))
     plt.show()
-  
+  '''
+
   '''
   file_path='test_systems/sugar.mol'
   df=readFile(file_path,info='graph')

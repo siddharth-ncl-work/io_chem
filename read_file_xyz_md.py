@@ -25,7 +25,7 @@ def processLineCords(line):
   return line
 
 def getCords(file,start_frame_no,end_frame_no=None,frame_no_pos=1,atoms=-1):
-  data={'frame':[],'atom':[],'atom_no':[],'x':[],'y':[],'z':[]}
+  data={'frame_no':[],'atom':[],'atom_no':[],'x':[],'y':[],'z':[]}
  
   if end_frame_no!=None and end_frame_no<start_frame_no:
     return pd.DataFrame.from_dict(data)
@@ -47,7 +47,7 @@ def getCords(file,start_frame_no,end_frame_no=None,frame_no_pos=1,atoms=-1):
       for i in range(atoms):
         line=file.readline()
         line=processLineCords(line)
-        data['frame'].append(curr_frame_no)
+        data['frame_no'].append(curr_frame_no)
         data['atom'].append(line[0])
         data['atom_no'].append(i)
         data['x'].append(line[1])
