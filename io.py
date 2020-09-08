@@ -1,3 +1,4 @@
+from tqdm import tqdm
 import pandas as pd 
 import numpy as np
 from decimal import Decimal
@@ -135,16 +136,20 @@ def checkIntegrity(file_path,file_type=None,is_md=False,start_frame_no=0,end_fra
       ref_total_atoms=read_file_xyz_md.totalAtoms(file)
     file=open(file_path,'r')
     if is_md:
-      for curr_frame_no in range(start_frame_no,end_frame_no+1):
+      pbar=tqdm(range(start_frame_no,end_frame_no+1))
+      for curr_frame_no in pbar:
+        pbar.set_description(f'Check Integrity: Frame No. {curr_frame_no}')
         df=read_file_xyz_md.getCords(file,curr_frame_no,frame_no_pos=frame_no_pos)
         curr_frame_total_atoms=df.shape[0]
         if curr_frame_total_atoms!=ref_total_atoms:
-          print('ERROR')
+          print(f'ERROR in frame no. {curr_frame_no}')
           data['frame_no'].append(curr_frame_no)
           data['total_atoms'].append(curr_frame_total_atoms)
           data['ref_total_atoms'].append(ref_total_atoms)
     else:
       pass
+    df=pd.DataFrame.from_dict(data)
+    print(df)
     file.close()
 
 if __name__=='__main__':  
