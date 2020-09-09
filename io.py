@@ -126,6 +126,8 @@ def writeFileMd(file,df,frame_no,file_type=None,info='normal',atoms_list=None,fr
   elif file_type=='opt':
     pass
 
+##############################################################
+#for future
 def checkIntegrity(file_path,file_type=None,is_md=False,start_frame_no=0,end_frame_no=None,frame_no_pos=1,atom_no_digits=3):
   data={'frame_no':[],'total_atoms':[],'ref_total_atoms':[]}
   if file_type is None:
@@ -146,6 +148,8 @@ def checkIntegrity(file_path,file_type=None,is_md=False,start_frame_no=0,end_fra
     else:
       pass
     file.close()
+################################################################
+
 
 if __name__=='__main__':  
   #file=open('/home/vanka/siddharth/mol_data/Acetamide3d.mol','r')
